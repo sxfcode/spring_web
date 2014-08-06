@@ -2,8 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:tx="http://www.springframework.org/schema/tx"  
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="
         http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -17,13 +16,14 @@
         http://www.springframework.org/schema/tx/spring-tx.xsd"
 	default-init-method="init" default-destroy-method="destroy">
 	<!-- <aop:aspectj-autoproxy proxy-target-class="true" /> -->
+	<!-- 启用aop注解,不影响基于xml的aop配置-->
+	<aop:aspectj-autoproxy/>
 	
-	<!-- 组件扫描范围 -->
-	<context:component-scan base-package="org.sxf" />
-	
-    <!-- 启用mvc注解 -->
-	<mvc:annotation-driven />
-	
-	<!-- 引用aop配置 -->
-	<import resource="/spring-aop.xml"/>
+	<!-- 配置aop -->
+	<aop:config>
+		<aop:aspect ref="userAdvice">
+			<aop:pointcut expression="within(org.sxf.user..*)" id="doAroundByXml" />
+			<aop:around method="doAround" pointcut-ref="doAroundByXml"/>
+		</aop:aspect>
+	</aop:config>
 </beans>
