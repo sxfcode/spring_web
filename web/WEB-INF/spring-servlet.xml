@@ -23,7 +23,7 @@
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/*" />
-			<bean id="userInterceptor" class="org.sxf.user.UserInterceptor" />
+			<bean id="userInterceptor" class="org.sxf.interceptor.user.UserInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
 	

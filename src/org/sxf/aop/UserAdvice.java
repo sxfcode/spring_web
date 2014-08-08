@@ -13,16 +13,14 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class UserAdvice {
-	
     public Object doAround(ProceedingJoinPoint pjp) throws Throwable{  
         System.out.println("aop-xml:doAround start");  
         long beginTime = System.currentTimeMillis();
         //执行该方法
-        Object object = pjp.proceed();
+    	Object object = pjp.proceed();
         long endTime = System.currentTimeMillis();
         System.out.println("aop-xml:doAround Method:<"+pjp.getSignature().getDeclaringTypeName()+"."+pjp.getSignature().getName()+">耗时"+(endTime-beginTime)+"ms");
         System.out.println("aop-xml:doAround end");  
         return object;  
     } 
-
 }

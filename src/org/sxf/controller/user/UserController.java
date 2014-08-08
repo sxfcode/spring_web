@@ -1,4 +1,4 @@
-package org.sxf.user;
+package org.sxf.controller.user;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -51,6 +51,14 @@ public class UserController {
 		return "helloworld query";
 	}
 	
+	@UserAnnotation(name = "ua", value = "ua_value")
+	@RequestMapping("/insert")
+	@ResponseBody
+	public String insert(){
+		System.out.println("do insert");
+		userEntityDao.insert();
+		return "helloworld insert";
+	}
 	
 	
 	@RequestMapping("/userView")

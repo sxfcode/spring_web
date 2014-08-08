@@ -16,7 +16,6 @@
         http://www.springframework.org/schema/tx/spring-tx.xsd"
 	default-init-method="init" default-destroy-method="destroy">
 	<!-- <aop:aspectj-autoproxy proxy-target-class="true" /> -->
-	<!-- 数据源配置 -->
 	<bean id="jdbcDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		destroy-method="close">
 		<property name="driverClass" value="com.mysql.jdbc.Driver" />
@@ -37,28 +36,27 @@
 		</constructor-arg>
 	</bean>
 
-	<!-- 事务配置 -->
-	<bean id="txManager"
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="jdbcDataSource" />
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mappingResources">
+			<list>
+				<value>org/springframework/samples/petclinic/hibernate/petclinic.hbm.xml
+				</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<value>
+				hibernate.dialect=${hibernate.dialect}
+			</value>
+		</property>
 	</bean>
 
-	<tx:advice id="txAdvice" transaction-manager="txManager">
-		<tx:attributes>
-			<tx:method name="*" />
-		</tx:attributes>
-	</tx:advice>
-	<aop:aspectj-autoproxy />
-    <aop:config>
-           <!--配置切入点集合,com.sxf.db包以及子包下的所有方法都作为切入点  -->
-           <aop:pointcut id="dbExecution" expression="execution(* org.sxf.db..*.*(..))" />
-           <aop:advisor advice-ref="txAdvice" pointcut-ref="dbExecution"/>
-           
-           <aop:aspect ref="userAdvice">
-			<aop:pointcut id="doAroundByXml" expression="execution(* org.sxf.controller..*.*(..))"  />
-			<aop:around method="doAround" pointcut-ref="doAroundByXml" />
-		    </aop:aspect>
-           
-    </aop:config>
+	<bean id="txManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+
 
 </beans>

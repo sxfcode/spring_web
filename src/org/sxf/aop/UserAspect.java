@@ -19,7 +19,6 @@ import org.springframework.stereotype.Component;
  * @version 1.0
  * @since jdk 1.6,spring_web 1.0
  */
-
 @Component
 @Aspect
 @Order(2)

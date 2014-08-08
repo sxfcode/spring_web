@@ -3,7 +3,6 @@ package org.sxf.aop;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 /**
@@ -17,9 +16,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Aspect
-@Order(1)
 public class UserAnnotationProcessor {
-	    @Around("within(org.sxf.user..*) && @annotation(userAnnotiAnnotation)")  
+	    @Around("within(org.sxf.controller..*) && @annotation(userAnnotiAnnotation)")  
 	    public Object doAround(ProceedingJoinPoint pjp,UserAnnotation userAnnotiAnnotation) throws Throwable{
 		    System.out.println("aop-annotation:doAround start userAnnotiAnnotation:"+userAnnotiAnnotation.name()+","+userAnnotiAnnotation.value());
 	        long beginTime = System.currentTimeMillis();

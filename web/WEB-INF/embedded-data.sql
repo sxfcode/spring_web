@@ -1,0 +1,1 @@
+insert into `user` (`id`, `name`, `password`, `age`, `sex`) values('1','xiaowang','123456','18','0');

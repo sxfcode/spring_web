@@ -39,7 +39,8 @@ public class UserEntityDao extends JdbcEntityDao{
 	 * insert.
 	 */
 	public void insert(){
-		this.getJdbcTemplate().execute("");
+		this.getJdbcTemplate().execute("insert into `user` (`id`, `name`, `password`, `age`, `sex`) values('20','xiaowang','123456','18','0');");
+		throw new RuntimeException();
 	}
 
 }
