@@ -16,14 +16,18 @@
         http://www.springframework.org/schema/tx/spring-tx.xsd"
 	default-init-method="init" default-destroy-method="destroy">
 	<!-- <aop:aspectj-autoproxy proxy-target-class="true" /> -->
-	<!-- 启用aop注解,不影响基于xml的aop配置-->
-	<aop:aspectj-autoproxy/>
-	
+	<!-- 启用aop注解,不影响基于xml的aop配置 -->
+	<aop:aspectj-autoproxy />
+
 	<!-- 配置aop -->
 	<aop:config>
-		<aop:aspect ref="userAdvice">
-			<aop:pointcut expression="within(org.sxf.user..*)" id="doAroundByXml" />
-			<aop:around method="doAround" pointcut-ref="doAroundByXml"/>
+		<aop:pointcut expression="within(org.sxf.user..*)" id="doAroundByXml1" />
+		<aop:pointcut expression="within(org.sxf.user..*)" id="doAroundByXml2" />
+		<aop:aspect ref="userAdvice1">
+			<aop:around method="doAround" pointcut-ref="doAroundByXml1" />
+		</aop:aspect>
+		<aop:aspect ref="userAdvice2">
+			<aop:around method="doAround" pointcut-ref="doAroundByXml2"  />
 		</aop:aspect>
 	</aop:config>
 </beans>
