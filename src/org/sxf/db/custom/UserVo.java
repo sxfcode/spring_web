@@ -1,5 +1,4 @@
-package org.sxf.user;
-
+package org.sxf.db.custom;
 
 /**
  * The Class UserVo.
@@ -15,21 +14,24 @@ public class UserVo {
 
 	/** name. */
 	private String name;
+	
+	/** password. */
+	private String password;
+	
+	/** sex. */
+	private int sex;
 
 	/** age. */
 	private int age;
 
-	/** sex. */
-	private String sex;
-	
 	/**
 	 * Instantiates a new UserVo.
 	 */
-	public UserVo(){
-		this.id=1;
-		this.name="test";
-		this.age=18;
-		this.sex="man";
+	public UserVo() {
+//		this.id = 1;
+//		this.name = "test";
+//		this.age = 18;
+//		this.sex = "man";
 	}
 
 	/**
@@ -44,7 +46,8 @@ public class UserVo {
 	/**
 	 * Sets id.
 	 *
-	 * @param id comments
+	 * @param id
+	 *            comments
 	 */
 	public void setId(int id) {
 		this.id = id;
@@ -62,7 +65,8 @@ public class UserVo {
 	/**
 	 * Sets name.
 	 *
-	 * @param name comments
+	 * @param name
+	 *            comments
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -80,27 +84,43 @@ public class UserVo {
 	/**
 	 * Sets age.
 	 *
-	 * @param age comments
+	 * @param age
+	 *            comments
 	 */
 	public void setAge(int age) {
 		this.age = age;
 	}
 
 	/**
-	 * Gets sex.
+	 * Gets password.
 	 *
-	 * @return sex
+	 * @return password
 	 */
-	public String getSex() {
-		return sex;
+	public String getPassword() {
+		return password;
 	}
 
 	/**
-	 * Sets sex.
+	 * Sets password.
 	 *
-	 * @param sex comments
+	 * @param password
+	 *            comments
 	 */
-	public void setSex(String sex) {
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public int getSex() {
+		return sex;
+	}
+
+	public void setSex(int sex) {
 		this.sex = sex;
+	}
+
+	@Override
+	public String toString() {
+		return "UserVo [id=" + id + ", name=" + name + ", password=" + password
+				+ ", sex=" + sex + ", age=" + age + "]";
 	}
 }

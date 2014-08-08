@@ -2,11 +2,14 @@ package org.sxf.user;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.sxf.aop.UserAnnotation;
+import org.sxf.db.custom.UserEntityDao;
+import org.sxf.db.custom.UserVo;
 
 /**
  * The Class UserController.
@@ -19,8 +22,11 @@ import org.sxf.aop.UserAnnotation;
 @Controller
 public class UserController {
 	
+	@Autowired
+	private UserEntityDao userEntityDao;
+	
 	/**
-	 * Prints the.
+	 * 该方法演示了注解和responseBody的用法
 	 *
 	 * @return the string
 	 */
@@ -31,6 +37,21 @@ public class UserController {
 		System.out.println("do print");
 		return "helloworld";
 	}
+	
+	/**
+	 * 该方法演示了对注入dao的使用
+	 * @return
+	 */
+	@RequestMapping("/query")
+	@ResponseBody
+	public String query(){
+		System.out.println("do query");
+		//userEntityDao.queryUser();
+		userEntityDao.queryUserByMapping();
+		return "helloworld query";
+	}
+	
+	
 	
 	@RequestMapping("/userView")
 	public String showUserViewJsp(){
