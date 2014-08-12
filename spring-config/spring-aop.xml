@@ -21,7 +21,7 @@
 
 	<!-- 配置aop,用户自定义切面，主要注意与db事务的执行顺序 -->
 	<aop:config>
-		<aop:aspect ref="userAdvice" order="1">
+		<aop:aspect ref="userAdvice" order="0">
 			<aop:pointcut id="userPointCut" expression="execution(* org.sxf.db..*.*(..))" />
 			<aop:around method="doAround" pointcut-ref="userPointCut" />
 		</aop:aspect>
