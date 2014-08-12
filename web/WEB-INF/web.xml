@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	id="WebApp_ID" version="3.0">
 	<display-name>spring_web</display-name>
-	<!--  Spring applicationContext初始化配置-->
+	<!-- Spring applicationContext初始化配置 -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>/WEB-INF/applicationContext.xml</param-value>
@@ -12,26 +12,43 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-	
-	<!--log4j配置文件加载-->  
-   <context-param>      
-       <param-name>log4jConfigLocation</param-name>      
-       <param-value>/WEB-INF/log4j.properties</param-value>      
-   </context-param>  
-   <!--启动一个watchdog线程每1800秒扫描一下log4j配置文件的变化-->  
-   <context-param>      
-       <param-name>log4jRefreshInterval</param-name>      
-       <param-value>1800000</param-value>      
-   </context-param>   
-   <!--spring log4j监听器-->  
-   <listener>      
-       <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>      
-   </listener>  
-	
+
+	<!--log4j配置文件加载 -->
+	<context-param>
+		<param-name>log4jConfigLocation</param-name>
+		<param-value>/WEB-INF/log4j.properties</param-value>
+	</context-param>
+	<!--启动一个watchdog线程每1800秒扫描一下log4j配置文件的变化 -->
+	<context-param>
+		<param-name>log4jRefreshInterval</param-name>
+		<param-value>1800000</param-value>
+	</context-param>
+	<!--spring log4j监听器 -->
+	<listener>
+		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+	</listener>
+
 	<!-- SpringMvc 配置dispatcherServlet -->
 	<servlet>
 		<servlet-name>spring</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<!-- 配置dispatcherServlet使用的上下文环境实例,比如说是基于注解的，或者基于xml的 -->
+		<init-param>
+			<param-name>contextClass</param-name>
+			<param-value>
+			org.springframework.web.context.support.AnnotationConfigWebApplicationContext
+			</param-value>
+		</init-param>
+		<!-- 上下文环境配置的位置 -->
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>com.acme.web.MvcConfig</param-value>
+		</init-param>
+		<!-- springmvc的配置文件名,默认情况下为[servlet-name]-servlet -->
+		<init-param>
+			<param-name>namespace</param-name>
+			<param-value>spring-mvc</param-value>
+		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
