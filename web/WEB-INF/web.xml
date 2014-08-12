@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	id="WebApp_ID" version="3.0">
 	<display-name>spring_web</display-name>
-	<!-- Spring applicationContext初始化配置 -->
+	<!-- Spring 上下文环境初始化配置 -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>/WEB-INF/applicationContext.xml</param-value>
@@ -30,20 +30,8 @@
 
 	<!-- SpringMvc 配置dispatcherServlet -->
 	<servlet>
-		<servlet-name>spring</servlet-name>
+		<servlet-name>dispatcherServlet</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<!-- 配置dispatcherServlet使用的上下文环境实例,比如说是基于注解的，或者基于xml的 -->
-		<init-param>
-			<param-name>contextClass</param-name>
-			<param-value>
-			org.springframework.web.context.support.AnnotationConfigWebApplicationContext
-			</param-value>
-		</init-param>
-		<!-- 上下文环境配置的位置 -->
-		<init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>com.acme.web.MvcConfig</param-value>
-		</init-param>
 		<!-- springmvc的配置文件名,默认情况下为[servlet-name]-servlet -->
 		<init-param>
 			<param-name>namespace</param-name>
@@ -52,7 +40,7 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>spring</servlet-name>
+		<servlet-name>dispatcherServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>

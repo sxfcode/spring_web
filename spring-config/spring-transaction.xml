@@ -16,51 +16,34 @@
         http://www.springframework.org/schema/tx/spring-tx.xsd"
 	default-init-method="init" default-destroy-method="destroy">
 	<!-- <aop:aspectj-autoproxy proxy-target-class="true" /> -->
-	<!-- 数据源配置 -->
-	<bean id="jdbcDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
-		destroy-method="close">
-		<property name="driverClass" value="com.mysql.jdbc.Driver" />
-		<property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/mydb" />
-		<property name="user" value="root" />
-		<property name="password" value="" />
-	</bean>
-
-	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-		<constructor-arg>
-			<ref bean="jdbcDataSource" />
-		</constructor-arg>
-		
-	</bean>
-	<bean id="namedParameterJdbcTemplate"
-		class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
-		<constructor-arg>
-			<ref bean="jdbcDataSource" />
-		</constructor-arg>
-	</bean>
-	
 	<!-- 事务配置,
 	事务能否回滚成功除了正确的配置事务范围，触发类型，代理类型之外，还与数据库的类型有关，
 	如mysql默认的MyIsAm和MEMORY引擎类型的表不支持事务，虽然spring会调用回滚命令，但是数据库是不会将刚提交的sql回滚的
 	所以如果我们在mysql数据库上使用事务，一定要使用InnoDB或者其他支持事务的引擎类型创建的表
 	另外spring默认情况下，只对Runtime和unchecked异常进行回滚,当然了你也可以自定义哪些异常需要回滚，哪些不会滚。
 	-->
+	<!-- 允许注解形式的aop配置 -->
 	<aop:aspectj-autoproxy />
+	
+	<!-- 事务aop配置 -->
     <aop:config>
            <!--配置切入点集合,com.sxf.db包以及子包下的所有方法都作为切入点  -->
-           <aop:pointcut id="myMethods" expression="execution(* org.sxf.db..*.*(..))" />
-           <aop:advisor advice-ref="txAdvice" pointcut-ref="myMethods"/>        
+           <aop:pointcut id="dbMethods" expression="execution(* org.sxf.db..*.*(..))"/>
+           <aop:advisor advice-ref="txAdvice" pointcut-ref="dbMethods" order="0"/>   
     </aop:config>
-    <tx:annotation-driven transaction-manager="txManager"/>
-	<bean id="txManager"
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="jdbcDataSource" />
-	</bean>
-    <!-- 事 -->
+    
+    <!-- 事务广播 -->
 	<tx:advice id="txAdvice"  transaction-manager="txManager">
 		<tx:attributes>
 			<tx:method name="get*" read-only="true" propagation="REQUIRED"/>
 			<tx:method name="*" propagation="REQUIRED"/>
 		</tx:attributes>
 	</tx:advice>
+    
+    <!-- 事务管理器 -->
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="jdbcDataSource" />
+	</bean>
 
 </beans>
