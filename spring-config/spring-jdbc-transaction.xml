@@ -30,20 +30,16 @@
 		反之，若业务方法异常首先被自定义aop发现，则自定义aop会捕获异常，事务aop无法发现异常，不会执行事务回滚，会产生脏数据。
 		因此在事务aop和自定义aop有重叠时，一定要注意执行顺序，保证业务异常首先被事务aop发现，或者自定义aop中不要使用try-catch. 
 	-->
-		
-	<!-- 允许注解形式的aop配置 -->
-	<aop:aspectj-autoproxy />
-
 	<!-- 事务aop配置 -->
 	<aop:config>
 		<!--配置切入点集合,com.sxf.db包以及子包下的所有方法都作为切入点 -->
-		<aop:pointcut id="dbMethods" expression="execution(* org.sxf.db..*.*(..))" />
-		<aop:advisor advice-ref="txAdvice" pointcut-ref="dbMethods"
+		<aop:pointcut id="jdbcMethods" expression="execution(* org.sxf.db..*.*(..))" />
+		<aop:advisor advice-ref="jdbcTxAdvice" pointcut-ref="jdbcMethods"
 			order="1" />
 	</aop:config>
 
 	<!-- 事务广播 -->
-	<tx:advice id="txAdvice" transaction-manager="txManager">
+	<tx:advice id="jdbcTxAdvice" transaction-manager="jdbcTxManager">
 		<tx:attributes>
 			<tx:method name="get*" read-only="true" propagation="REQUIRED" />
 			<tx:method name="*" propagation="REQUIRED" />
@@ -51,9 +47,8 @@
 	</tx:advice>
 
 	<!-- 事务管理器 -->
-	<bean id="txManager"
+	<bean id="jdbcTxManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="jdbcDataSource" />
+		<property name="dataSource" ref="userDataSource" />
 	</bean>
-
 </beans>

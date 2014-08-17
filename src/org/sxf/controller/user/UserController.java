@@ -8,8 +8,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.sxf.aop.UserAnnotation;
-import org.sxf.db.custom.UserEntityDao;
 import org.sxf.db.custom.UserVo;
+import org.sxf.db.custom.hibernate.UserHibernateEntityDao;
+import org.sxf.db.custom.jdbc.UserJdbcEntityDao;
 
 /**
  * The Class UserController.
@@ -23,7 +24,11 @@ import org.sxf.db.custom.UserVo;
 public class UserController {
 	
 	@Autowired
-	private UserEntityDao userEntityDao;
+	private UserJdbcEntityDao userJdbcEntityDao;
+	
+	@SuppressWarnings("rawtypes")
+	@Autowired
+	private UserHibernateEntityDao userHibernateEntityDao;
 	
 	/**
 	 * 该方法演示了注解和responseBody的用法
@@ -47,7 +52,8 @@ public class UserController {
 	public String query(){
 		System.out.println("do query");
 		//userEntityDao.queryUser();
-		userEntityDao.queryUserByMapping();
+		//userJdbcEntityDao.queryUserByMapping();
+		userHibernateEntityDao.queryUser();
 		return "helloworld query";
 	}
 	
@@ -56,7 +62,7 @@ public class UserController {
 	@ResponseBody
 	public String insert(){
 		System.out.println("do insert");
-		userEntityDao.insert();
+		userJdbcEntityDao.insert();
 		return "helloworld insert";
 	}
 	

@@ -1,4 +1,4 @@
-package org.sxf.db.custom;
+package org.sxf.db.custom.jdbc;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.object.MappingSqlQuery;
 import org.springframework.stereotype.Repository;
+import org.sxf.db.custom.UserVo;
 
 /**
  * The Class UserEntityMappingDao.
@@ -22,10 +23,10 @@ import org.springframework.stereotype.Repository;
  * @since jdk 1.6,spring_web 1.0
  */
 @Repository
-public class UserEntityMappingQuery extends MappingSqlQuery<UserVo> {
+public class UserJdbcEntityMappingQuery extends MappingSqlQuery<UserVo> {
 	
 	@Autowired 
-	public UserEntityMappingQuery(@Qualifier("jdbcDataSource") DataSource dataSource){
+	public UserJdbcEntityMappingQuery(@Qualifier("userDataSource") DataSource dataSource){
 		super(dataSource, "select * from user where id = ?");
         super.declareParameter(new SqlParameter("id", Types.INTEGER));
         compile();

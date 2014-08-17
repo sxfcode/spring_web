@@ -25,6 +25,7 @@ public class UserAdvice {
             System.out.println("aop-xml:doAround Method:<"+pjp.getSignature().getDeclaringTypeName()+"."+pjp.getSignature().getName()+">耗时"+(endTime-beginTime)+"ms");
 		} catch (Exception e) {
 			System.out.println("UserAdvice aroud捕获异常");
+			e.printStackTrace();
 		}
         System.out.println("aop-xml:doAround end");  
         return result;  

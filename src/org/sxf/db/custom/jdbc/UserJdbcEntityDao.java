@@ -1,4 +1,4 @@
-package org.sxf.db.custom;
+package org.sxf.db.custom.jdbc;
 
 import java.util.List;
 import java.util.Map;
@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.sxf.db.common.jdbc.JdbcEntityDao;
+import org.sxf.db.custom.UserVo;
 
 /**
  * The Class UserEntityDao.
@@ -17,10 +18,10 @@ import org.sxf.db.common.jdbc.JdbcEntityDao;
  * @since jdk 1.6,spring_web 1.0
  */
 @Repository
-public class UserEntityDao extends JdbcEntityDao{
+public class UserJdbcEntityDao extends JdbcEntityDao{
 
 	@Autowired
-	private UserEntityMappingQuery userEntityMappingQuery;
+	private UserJdbcEntityMappingQuery userEntityMappingQuery;
 	
 	/**
 	 * queryUser.

@@ -24,12 +24,24 @@
     <!-- 启用mvc注解 -->
 	<mvc:annotation-driven />
 	
+	<!-- 数据源配置 -->
+	<bean id="userDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="com.mysql.jdbc.Driver" />
+		<property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/mydb" />
+		<property name="user" value="root" />
+		<property name="password" value="" />
+	</bean>
+	
 	<!-- 引用aop配置 	-->
 	<import resource="/spring-aop.xml"/>
 	
 	<!-- 引用数据库配置 	-->
-	<import resource="/spring-db-jdbc.xml"/>
+	<import resource="/spring-jdbc.xml"/>
+	<import resource="/spring-hibernate.xml"/>
+	<!-- 同一个数据源上只能启用一个事务管理器,请注意
+		<import resource="/spring-jdbc-transaction.xml"/>
+	 -->
+	<import resource="/spring-hibernate-transaction.xml"/>
 	
-	<!-- 引用数据库事务配置 -->
-	<import resource="/spring-transaction.xml"/>
 </beans>
