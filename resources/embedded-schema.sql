@@ -6,4 +6,10 @@ CREATE TABLE `user` (
           `sex` int(11) DEFAULT NULL,                                                                                 
           PRIMARY KEY (`id`)                                                                                          
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC
+
+CREATE TABLE `user_log` (                                                                                     
+            `id` double NOT NULL,                                                                                       
+            `content` char(1) COLLATE utf8_unicode_ci DEFAULT NULL,                                                     
+            PRIMARY KEY (`id`)                                                                                          
+          ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC  
         
