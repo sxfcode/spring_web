@@ -24,40 +24,18 @@ import org.springframework.stereotype.Repository;
  * @since jdk 1.6,spring_web 1.0
  */
 @Repository
-public class HibernateEntityDao<T> {
+public class HibernateBaseDao<T> {
 
 	/** hibernateTemplate. */
 	@Autowired
 	private HibernateTemplate hibernateTemplate;
 
 	/** 用来获取泛型类型. */
-	protected T entityObject;
 	
-	public void init(){
-		try {
-			String classString = HibernateEntityDao.class.getField(  
-			        "entityObject").getGenericType().toString();
-			System.out.println("已经获取泛型类型"+classString);
-		} catch (SecurityException e) {
-			System.out.println("获取泛型类型失败");
-			e.printStackTrace();
-		} catch (NoSuchFieldException e) {
-			e.printStackTrace();
-		}
-		
-	}
+	
 	
 	
 
-	public T getEntityObject() {
-		return entityObject;
-	}
-
-
-
-	public void setEntityObject(T entityObject) {
-		this.entityObject = entityObject;
-	}
 
 
 
@@ -126,7 +104,7 @@ public class HibernateEntityDao<T> {
 	
 	@SuppressWarnings("unchecked")
 	public T load(Serializable id){
-		return (T)hibernateTemplate.load(entityObject.getClass(), id);
+		return null;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -183,21 +161,7 @@ public class HibernateEntityDao<T> {
 	@SuppressWarnings("unchecked")
 	public List<T> findByCriteria(List<Criterion> conditions,
 			Integer maxResult, Order order) {
-		if (conditions == null) {
-			return null;
-		}
-		Session session = getSessionFactory().openSession();
-		Criteria criteria = session.createCriteria(entityObject.getClass());
-		for (Criterion criterion : conditions) {
-			criteria.add(criterion);
-		}
-		if (maxResult != null) {
-			criteria.setMaxResults(maxResult);
-		}
-		if (order != null) {
-			criteria.addOrder(order);
-		}
-		return (List<T>) criteria.list();
+		return null;
 	}
 
 	/**
@@ -213,4 +177,8 @@ public class HibernateEntityDao<T> {
 		List result = session.createSQLQuery(sql).list();
 		return result;
 	}
+	
+	
+	
+	
 }

@@ -53,7 +53,10 @@ public class UserController {
 		System.out.println("do query");
 		//userEntityDao.queryUser();
 		//userJdbcEntityDao.queryUserByMapping();
-		userHibernateEntityDao.queryUser();
+		//userHibernateEntityDao.queryByTemplate();
+		userHibernateEntityDao.queryByHql();
+		userHibernateEntityDao.queryByCriteria();
+		userHibernateEntityDao.queryByNativeSql();
 		return "helloworld query";
 	}
 	

@@ -1,7 +1,10 @@
 package org.sxf.db.custom.hibernate;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.sxf.db.common.hibernate.HibernateEntityDao;
 
@@ -15,20 +18,50 @@ import org.sxf.db.common.hibernate.HibernateEntityDao;
  * @since jdk 1.6,spring_web 1.0
  */
 @Repository
-public class UserHibernateEntityDao<T> extends HibernateEntityDao{
+public class UserHibernateEntityDao extends HibernateEntityDao<UserHibernateEntity>{
 
+	public void queryByTemplate(){
+		List<UserHibernateEntity> result = findByHibernateTemplate("from UserHibernateEntity");
+		if (result!=null&&result.size()>0) {
+			for (UserHibernateEntity t : result) {
+				System.out.println(t.toString());
+			}
+		}
+	}
 	
 	/**
 	 * queryUser.
 	 */
-	@SuppressWarnings("unchecked")
-	public void queryUser(){
-		List<T> result = this.getHibernateTemplate().find("from UserHibernateEntity");
+	public void queryByHql(){
+		List<UserHibernateEntity> result = findByHql("from UserHibernateEntity");
 		if (result!=null&&result.size()>0) {
-			for (T t : result) {
+			for (UserHibernateEntity t : result) {
 				System.out.println(t.toString());
 			}
 		}
+	}
+	
+	public void queryByCriteria(){
+		List<Criterion> conditions = new ArrayList<Criterion>();
+		conditions.add(Restrictions.like("name", "x"));
+		conditions.add(Restrictions.eq("age", 17));
+		List<UserHibernateEntity> result =findByCriteria(conditions);
+		if (result!=null&&result.size()>0) {
+			for (UserHibernateEntity t : result) {
+				System.out.println(t.toString());
+			}
+		}
+		
+	}
+	@SuppressWarnings("rawtypes")
+	public void queryByNativeSql(){
+		List result = findByNativeSql("select * from user");
+		if (result!=null&&result.size()>0) {
+			for (Object o : result) {
+				System.out.println(o.toString());
+			}
+		}
+		
 	}
 	
 	
@@ -36,7 +69,12 @@ public class UserHibernateEntityDao<T> extends HibernateEntityDao{
 	 * insert.
 	 */
 	public void insert(){
-		throw new RuntimeException();
+		UserHibernateEntity ue = new UserHibernateEntity();
+		ue.setAge(17);
+		ue.setName("小明");
+		ue.setPassword("123");
+		ue.setSex(1);
+		save(ue);
 	}
 
 }
