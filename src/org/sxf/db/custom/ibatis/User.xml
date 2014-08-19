@@ -11,4 +11,8 @@
 	<select id="listUser" resultMap="result">
 		select name,password from user
 	</select>
+	<insert id="insertUser" >
+		insert into `user` (`name`, `password`, `age`, `sex`) values('xiaowang','123456','18','0');
+	</insert>
+	
 </sqlMap>

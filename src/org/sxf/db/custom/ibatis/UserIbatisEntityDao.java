@@ -21,5 +21,11 @@ public class UserIbatisEntityDao extends IbatisEntityDao {
 		List<UserIbatisEntity> result = getSqlMapClientTemplate().queryForList("listUser");
 		System.out.println(result);
 	}
+	
+	@SuppressWarnings("deprecation")
+	public void insert(){
+		getSqlMapClientTemplate().insert("insertUser");
+		//throw new RuntimeException("test"); 测试事务执行情况
+	}
 
 }

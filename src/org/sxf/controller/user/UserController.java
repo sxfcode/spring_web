@@ -79,7 +79,8 @@ public class UserController {
 	@ResponseBody
 	public String insert(){
 		System.out.println("do insert");
-		userJdbcEntityDao.insert();
+		//userJdbcEntityDao.insert();
+		userIbatisEntityDao.insert();
 		return "helloworld insert";
 	}
 	
