@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.sxf.aop.UserAnnotation;
 import org.sxf.db.custom.UserVo;
 import org.sxf.db.custom.hibernate.UserHibernateEntityDao;
+import org.sxf.db.custom.hibernate.UserLogHibernateEntityDao;
 import org.sxf.db.custom.jdbc.UserJdbcEntityDao;
 
 /**
@@ -26,9 +27,11 @@ public class UserController {
 	@Autowired
 	private UserJdbcEntityDao userJdbcEntityDao;
 	
-	@SuppressWarnings("rawtypes")
 	@Autowired
 	private UserHibernateEntityDao userHibernateEntityDao;
+	
+	@Autowired
+	private UserLogHibernateEntityDao userLogHibernateEntityDao; 
 	
 	/**
 	 * 该方法演示了注解和responseBody的用法

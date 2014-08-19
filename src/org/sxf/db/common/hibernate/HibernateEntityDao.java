@@ -2,6 +2,7 @@ package org.sxf.db.common.hibernate;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -15,7 +16,10 @@ import org.springframework.stereotype.Repository;
 
 /**
  * The Class HibernateEntityDao.
- *
+ * 
+ * HibernateEntityDao继承HibernateBaseDao的目的只是为了获取泛型类型,
+ * 用来为hibernate查询接口提供查询参数
+ * 
  * @param <T>
  *            the generic type
  * @date 2014-8-18 11:46:59
@@ -24,42 +28,37 @@ import org.springframework.stereotype.Repository;
  * @since jdk 1.6,spring_web 1.0
  */
 @Repository
-public class HibernateEntityDao<T> {
+public class HibernateEntityDao<T> extends HibernateBaseDao<T> {
 
 	/** hibernateTemplate. */
 	@Autowired
 	private HibernateTemplate hibernateTemplate;
 
 	/** 用来获取泛型类型. */
-	protected T entityObject;
-	
-	public void init(){
-		try {
-			String classString = HibernateEntityDao.class.getField(  
-			        "entityObject").getGenericType().toString();
-			System.out.println("已经获取泛型类型"+classString);
-		} catch (SecurityException e) {
-			System.out.println("获取泛型类型失败");
-			e.printStackTrace();
-		} catch (NoSuchFieldException e) {
-			e.printStackTrace();
+	private Class<T> entityClass;
+
+	/**
+	 * init.
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public void init() {
+		Type genericSuperClass = getClass().getGenericSuperclass();
+		if (genericSuperClass instanceof ParameterizedType) {
+			Type[] p = ((ParameterizedType) genericSuperClass).getActualTypeArguments();
+			String className = p[0].toString();
+			// 检查T泛型信息
+			if(!className.equals("T")){
+				entityClass = (Class)p[0];
+				System.out.println("未发现泛型T");
+				System.out.println("获取泛型" + (Class)p[0]);
+			}else{
+				System.out.println("发现泛型T");
+			}
+		} else {
+			System.out.println("类型不匹配1...");
 		}
-		
+
 	}
-	
-	
-
-	public T getEntityObject() {
-		return entityObject;
-	}
-
-
-
-	public void setEntityObject(T entityObject) {
-		this.entityObject = entityObject;
-	}
-
-
 
 	/**
 	 * Gets hibernateTemplate.
@@ -95,8 +94,8 @@ public class HibernateEntityDao<T> {
 	 * @param t
 	 *            comments
 	 */
-	public void save(T t) {
-		hibernateTemplate.save(t);
+	public Serializable save(T t) {
+		return hibernateTemplate.save(t);
 	}
 
 	/**
@@ -118,26 +117,41 @@ public class HibernateEntityDao<T> {
 	public void update(T t) {
 		hibernateTemplate.update(t);
 	}
-	
-	@SuppressWarnings("unchecked")
-	public T get(Serializable id){
-	return null;
-	}
-	
-	@SuppressWarnings("unchecked")
-	public T load(Serializable id){
-		return (T)hibernateTemplate.load(entityObject.getClass(), id);
-	}
-	
-	@SuppressWarnings("unchecked")
-	public List<T> findByHibernateTemplate(String hql) {
-		return (List<T>)hibernateTemplate.find(hql);
-	}
-	
-	
 
 	/**
-	 * findByHql. 使用hql进行查询
+	 * get.
+	 *
+	 * @param id comments
+	 * @return T
+	 */
+	public T get(Serializable id) {
+		return  (T) hibernateTemplate.get(entityClass, id);
+	}
+
+	/**
+	 * load.
+	 *
+	 * @param id comments
+	 * @return T
+	 */
+	public T load(Serializable id) {
+		return (T) hibernateTemplate.load(entityClass, id);
+	}
+
+	/**
+	 * findByHibernateTemplate.
+	 *
+	 * @param hql comments
+	 * @return List
+	 */
+	@SuppressWarnings("unchecked")
+	public List<T> findByHibernateTemplate(String hql) {
+		return (List<T>) hibernateTemplate.find(hql);
+	}
+
+	/**
+	 * findByHql. 
+	 * 使用hql进行查询
 	 *
 	 * @param hql
 	 *            comments
@@ -151,7 +165,8 @@ public class HibernateEntityDao<T> {
 	}
 
 	/**
-	 * findByCriteria. 使用Criteria对象进行查询 
+	 * findByCriteria. 
+	 * 使用Criteria对象进行查询
 	 * List cats =
 	 * sess.createCriteria(Cat.class) .add( Restrictions.like("name", "F%")
 	 * .addOrder( Order.asc("name") ) .addOrder( Order.desc("age") )
@@ -167,8 +182,8 @@ public class HibernateEntityDao<T> {
 
 	/**
 	 * findByCriteria. 使用Criteria对象进行查询 
-	 * example 
-	 * List cats = sess.createCriteria(Cat.class) .add( Restrictions.like("name", "F%")
+	 * List cats =
+	 * sess.createCriteria(Cat.class) .add( Restrictions.like("name", "F%")
 	 * .addOrder( Order.asc("name") ) .addOrder( Order.desc("age") )
 	 * .setMaxResults(50) .list();
 	 * 
@@ -187,7 +202,7 @@ public class HibernateEntityDao<T> {
 			return null;
 		}
 		Session session = getSessionFactory().openSession();
-		Criteria criteria = session.createCriteria(entityObject.getClass());
+		Criteria criteria = session.createCriteria(entityClass);
 		for (Criterion criterion : conditions) {
 			criteria.add(criterion);
 		}
@@ -201,7 +216,8 @@ public class HibernateEntityDao<T> {
 	}
 
 	/**
-	 * findByNativeSql. 使用原生Sql进行查询
+	 * findByNativeSql. 
+	 * 使用原生Sql进行查询
 	 *
 	 * @param sql
 	 *            comments

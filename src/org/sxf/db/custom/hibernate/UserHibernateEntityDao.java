@@ -11,7 +11,9 @@ import org.sxf.db.common.hibernate.HibernateEntityDao;
 /**
  * The Class UserEntityDao.
  * user查询类,
- * 该类已经从JdbcEntityDao继承了dataSource
+ * 若用户定义的Dao类继承HibernateEntityDao，要添加init初始化方法，务必要先调用一下父类的init方法，以完成泛型类型的写入。
+ * 
+ * 
  * @date 2014-8-7 18:01:25
  * @author 宿晓斐
  * @version 1.0
@@ -19,6 +21,11 @@ import org.sxf.db.common.hibernate.HibernateEntityDao;
  */
 @Repository
 public class UserHibernateEntityDao extends HibernateEntityDao<UserHibernateEntity>{
+	public void init(){
+		super.init();
+	}
+	
+	
 
 	public void queryByTemplate(){
 		List<UserHibernateEntity> result = findByHibernateTemplate("from UserHibernateEntity");
