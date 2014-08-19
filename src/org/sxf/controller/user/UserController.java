@@ -57,9 +57,15 @@ public class UserController {
 		//userEntityDao.queryUser();
 		//userJdbcEntityDao.queryUserByMapping();
 		//userHibernateEntityDao.queryByTemplate();
-		userHibernateEntityDao.queryByHql();
-		userHibernateEntityDao.queryByCriteria();
-		userHibernateEntityDao.queryByNativeSql();
+//		userHibernateEntityDao.queryByHql();
+//		userHibernateEntityDao.queryByCriteria();
+//		userHibernateEntityDao.queryByNativeSql();
+		try {
+			userJdbcEntityDao.queryInOldStyle();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return "helloworld query";
 	}
 	
