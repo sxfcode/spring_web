@@ -11,6 +11,7 @@ import org.sxf.aop.UserAnnotation;
 import org.sxf.db.custom.UserVo;
 import org.sxf.db.custom.hibernate.UserHibernateEntityDao;
 import org.sxf.db.custom.hibernate.UserLogHibernateEntityDao;
+import org.sxf.db.custom.ibatis.UserIbatisEntityDao;
 import org.sxf.db.custom.jdbc.UserJdbcEntityDao;
 
 /**
@@ -32,6 +33,9 @@ public class UserController {
 	
 	@Autowired
 	private UserLogHibernateEntityDao userLogHibernateEntityDao; 
+	
+	@Autowired
+	private UserIbatisEntityDao userIbatisEntityDao;
 	
 	/**
 	 * 该方法演示了注解和responseBody的用法
@@ -60,11 +64,12 @@ public class UserController {
 //		userHibernateEntityDao.queryByHql();
 //		userHibernateEntityDao.queryByCriteria();
 //		userHibernateEntityDao.queryByNativeSql();
-		try {
-			userJdbcEntityDao.queryInOldStyle();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		userIbatisEntityDao.query();
+//		try {
+//			userJdbcEntityDao.queryInOldStyle();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		
 		return "helloworld query";
 	}

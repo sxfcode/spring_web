@@ -39,9 +39,14 @@
 	<!-- 引用数据库配置 	-->
 	<import resource="/spring-jdbc.xml"/>
 	<import resource="/spring-hibernate.xml"/>
+	<import resource="/spring-ibatis.xml"/>
 	<!-- 同一个数据源上只能启用一个事务管理器,请注意
-		<import resource="/spring-jdbc-transaction.xml"/>
-	 -->
 	<import resource="/spring-hibernate-transaction.xml"/>
+ 	<import resource="/spring-jdbc-transaction.xml"/>	
+	 -->
+	 <import resource="/spring-ibatis-transaction.xml"/>	
+	
+	
+	
 	
 </beans>
