@@ -13,6 +13,7 @@ import org.sxf.db.custom.hibernate.UserHibernateEntityDao;
 import org.sxf.db.custom.hibernate.UserLogHibernateEntityDao;
 import org.sxf.db.custom.ibatis.UserIbatisEntityDao;
 import org.sxf.db.custom.jdbc.UserJdbcEntityDao;
+import org.sxf.db.custom.mybatis.UserMybatisEntityDao;
 
 /**
  * The Class UserController.
@@ -37,6 +38,9 @@ public class UserController {
 	@Autowired
 	private UserIbatisEntityDao userIbatisEntityDao;
 	
+	@Autowired
+	private UserMybatisEntityDao userMybatisEntityDao;
+	
 	/**
 	 * 该方法演示了注解和responseBody的用法
 	 *
@@ -54,6 +58,7 @@ public class UserController {
 	 * 该方法演示了对注入dao的使用
 	 * @return
 	 */
+	@SuppressWarnings("unused")
 	@RequestMapping("/query")
 	@ResponseBody
 	public String query(){
@@ -64,12 +69,9 @@ public class UserController {
 //		userHibernateEntityDao.queryByHql();
 //		userHibernateEntityDao.queryByCriteria();
 //		userHibernateEntityDao.queryByNativeSql();
-		userIbatisEntityDao.query();
-//		try {
-//			userJdbcEntityDao.queryInOldStyle();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
+		//userJdbcEntityDao.queryInOldStyle();
+		//userIbatisEntityDao.query();
+		userMybatisEntityDao.query();
 		
 		return "helloworld query";
 	}
